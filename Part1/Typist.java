@@ -24,6 +24,7 @@ public class Typist
     private boolean burntOut;
     private int turnsRemaining;
     private double accuracy;
+    private boolean justMistyped;
 
 
 
@@ -127,6 +128,26 @@ public class Typist
     }
 
     /**
+     * Returns if the typist has just mistyped
+     * This is calculated if they have called the 'slideBack' method
+     * and have not yet called the 'advanceTypist' method
+     * 
+     * @return true if they have just mistyped
+     */
+    public boolean hasJustMistyped() {
+        return this.justMistyped;
+    }
+
+
+    /**
+     * Resets the attribute 'justMistyped' (i.e. sets it to false)
+     * 
+     * */
+    public void resetJustMistyped() {
+        this.justMistyped = false;
+    }
+
+    /**
      * Resets the typist to their initial state, ready for a new race.
      * Progress returns to zero, burnout is cleared entirely.
      */
@@ -135,6 +156,7 @@ public class Typist
         this.progress = 0;
         this.burntOut = false;
         this.turnsRemaining = 0;
+        this.justMistyped = false;
     }
 
     /**
@@ -166,6 +188,7 @@ public class Typist
      */
     public void slideBack(int amount)
     {
+        this.justMistyped = true;
         int newProgress = this.progress - amount;
         if (newProgress < 0) { // if negative
             this.progress = 0; // then put progress equal to zero

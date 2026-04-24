@@ -9,7 +9,7 @@ public class TestTypist {
             playerTest.typeCharacter();
         }
 
-        printTestCase("getProgress()", 3, playerTest.getProgress());
+        printTestCase("getProgress()", numberOfCharacters, playerTest.getProgress());
 
         // --------------------------------------------------
         lineBreak(50);
@@ -49,15 +49,28 @@ public class TestTypist {
         lineBreak(50);
 
         System.out.println("Testing that resetToStart() clears both progress and burnout state:");
-        playerTest.burnOut(1);
-        playerTest.resetToStart();
+        playerTest.typeCharacter();
 
-        printTestCase("getProgress()", 0, playerTest.getProgress());
+        System.out.println("Current progress (before reset): "+playerTest.getProgress());
+        playerTest.burnOut(1);
+        System.out.println("isBurntOut (before reset): "+playerTest.isBurntOut());
+        System.out.println("getBurnoutTurnsRemaining (before reset): "+playerTest.getBurnoutTurnsRemaining());
 
         // ----------
         lineBreak(10);
 
-        printTestCase("isBurntOut()", false, playerTest.isBurntOut());
+        playerTest.resetToStart();
+
+        printTestCase("getProgress() (after reset)", 0, playerTest.getProgress());
+
+        // ----------
+        lineBreak(10);
+
+        printTestCase("isBurntOut() (after reset)", false, playerTest.isBurntOut());
+
+        // ----------
+        lineBreak(10);
+        printTestCase("getBurnoutTurnsRemaining()", 0, playerTest.getBurnoutTurnsRemaining());
 
         // --------------------------------------------------
         lineBreak(50);
