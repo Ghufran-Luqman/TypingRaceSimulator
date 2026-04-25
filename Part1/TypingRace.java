@@ -1,5 +1,6 @@
 import java.util.concurrent.TimeUnit;
 import java.lang.Math;
+import java.text.DecimalFormat;
 
 /**
  * A typing race simulation. Three typists race to complete a passage of text,
@@ -24,6 +25,8 @@ public class TypingRace
     private static final double MISTYPE_BASE_CHANCE = 0.8;
     private static final int    SLIDE_BACK_AMOUNT   = 2;
     private static final int    BURNOUT_DURATION     = 2;
+    private DecimalFormat df = new DecimalFormat("0.00");
+
     /**
      * Constructor for objects of class TypingRace.
      * Sets up the race with a passage of the given length.
@@ -113,7 +116,11 @@ public class TypingRace
 
         for (Typist t : players) {
             if (raceFinishedBy(t)) {
-                System.out.println(t.getName());
+                double oldAcc = t.getAccuracy(); // save old accuracy
+                t.setAccuracy(oldAcc + 0.02); // slightly increase winner's accuracy
+
+                System.out.println("And the winner is... "+t.getName());
+                System.out.println("Final accuracy: "+df.format(t.getAccuracy())+" (improved from "+df.format(oldAcc)+")");
             }
         }
     }
@@ -161,6 +168,9 @@ public class TypingRace
         if (Math.random() < 0.05 * theTypist.getAccuracy() * theTypist.getAccuracy())
         {
             theTypist.burnOut(BURNOUT_DURATION);
+
+            // slightly decrease their accuracy
+            theTypist.setAccuracy(theTypist.getAccuracy() - 0.02);
         }
     }
 
@@ -252,18 +262,18 @@ public class TypingRace
         if (theTypist.isBurntOut())
         {
             System.out.print(theTypist.getName()
-                + " (Accuracy: " + theTypist.getAccuracy() + ")"
+                + " (Accuracy: " + df.format(theTypist.getAccuracy()) + ")"
                 + " BURNT OUT (" + theTypist.getBurnoutTurnsRemaining() + " turns)");
         }
         else if (theTypist.hasJustMistyped()) {
             System.out.print(theTypist.getName()
-                + " (Accuracy: " + theTypist.getAccuracy() + ")"
+                + " (Accuracy: " + df.format(theTypist.getAccuracy()) + ")"
                 + " ← just mistyped");
         }
         else
         {
             System.out.print(theTypist.getName()
-                + " (Accuracy: " + theTypist.getAccuracy() + ")");
+                + " (Accuracy: " + df.format(theTypist.getAccuracy()) + ")");
         }
     }
 
