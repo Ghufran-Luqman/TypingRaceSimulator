@@ -21,9 +21,12 @@ public class MainManager {
         deckPanel.add(raceScreen, "Race");
 
         setupScreen.startButton.addActionListener(e -> {
-            // get passage length from setupRace
-            int length = setupScreen.getPassageLength();
-            System.out.println("Passage length: "+length);
+            // get passage from setupRace
+            String passage = setupScreen.getPassage();
+            System.out.println("Passage: "+passage);
+
+            int passageLength = passage.length();
+            System.out.println("Passage length: "+passageLength);
 
             int noOfRacers = setupScreen.getNoOfRacers();
             System.out.println("Number of racers: "+noOfRacers);
@@ -36,6 +39,8 @@ public class MainManager {
 
             boolean nightShift = setupScreen.getNightShift();
             System.out.println("Night Shift: "+nightShift);
+
+
 
             cardLayout.show(deckPanel, "Race");
         });
