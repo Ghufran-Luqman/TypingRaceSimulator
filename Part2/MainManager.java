@@ -20,29 +20,20 @@ public class MainManager {
         deckPanel.add(setupScreen, "Setup");
         deckPanel.add(raceScreen, "Race");
 
-        setupScreen.startButton.addActionListener(e -> {
-            // get passage from setupRace
-            String passage = setupScreen.getPassage();
-            System.out.println("Passage: "+passage);
-
-            int passageLength = passage.length();
-            System.out.println("Passage length: "+passageLength);
-
+        setupScreen.typistsButton.addActionListener(e -> {
             int noOfRacers = setupScreen.getNoOfRacers();
-            System.out.println("Number of racers: "+noOfRacers);
+            SetupTypists typistScrn = new SetupTypists(noOfRacers);
 
-            boolean autocorrect = setupScreen.getAutocorrect();
-            System.out.println("Autocorrect: "+autocorrect);
+            deckPanel.add(typistScrn, "Setup Typists");
 
-            boolean caffieneMode = setupScreen.getCaffieneMode();
-            System.out.println("Caffiene Mode: "+caffieneMode);
+            typistScrn.startRace.addActionListener(startEvent -> {
+                //grab data etc.
 
-            boolean nightShift = setupScreen.getNightShift();
-            System.out.println("Night Shift: "+nightShift);
+                cardLayout.show(deckPanel, "Race");
+            });
 
-
-
-            cardLayout.show(deckPanel, "Race");
+            cardLayout.show(deckPanel, "Setup Typists");
+            
         });
 
         frame.add(deckPanel);

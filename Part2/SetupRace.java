@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SetupRace extends JPanel {
-    public JButton startButton;
+    public JButton typistsButton;
 
     // text taken from wikipedia (links below)
     private String shortPassage = "In calling the Hubble's spectacular new image of the Eagle Nebula the Pillars of Creation, NASA scientists were tapping a rich symbolic tradition with centuries of meaning, bringing it into the modern age."; // https://en.wikipedia.org/wiki/Pillars_of_Creation taken at 14:34 27/04/2026
@@ -35,7 +35,7 @@ public class SetupRace extends JPanel {
 
         noOfRacers = new JSlider(2, 6, 3);
 
-        startButton = new JButton("Start Race");
+        typistsButton = new JButton("Next");
 
         autocorrect = new JCheckBox("Autocorrect");
         caffieneMode = new JCheckBox("Caffiene Mode");
@@ -101,14 +101,15 @@ public class SetupRace extends JPanel {
         modifiersSection.add(caffieneMode);
         modifiersSection.add(nightShift);
 
-        JPanel button = new JPanel();
-        button.add(startButton);
+        
+        JPanel typistsButtonPanel = new JPanel();
+        typistsButtonPanel.add(typistsButton);
 
         this.add(header);
         this.add(passageSelection);
         this.add(racerSeats);
         this.add(modifiersSection);
-        this.add(button);
+        this.add(typistsButtonPanel);
     }
 
     public String getPassage() {
