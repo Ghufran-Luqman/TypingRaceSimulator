@@ -45,7 +45,7 @@ public class SetupTypists extends JPanel {
         // typing style
         JPanel typingStylePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         typingStylePanel.add(new JLabel("Typing Style: "));
-        String[] typingStyles = {"Touch Typist", "Hunt & Peck", "Phone Thumbs", "Voice-to-Text"};
+        String[] typingStyles = {"Touch Typist (high accuracy but higher burnout risk)", "Hunt & Peck (low accuracy but lower burnout risk)", "Phone Thumbs (medium accuracy, medium burnout risk", "Voice-to-Text (very high accuracy but high burnout risk)"};
         JComboBox<String> typingStyleBox = new JComboBox<>(typingStyles);
         racerTypingStylesMap.put(currentRacer, typingStyleBox);
         typingStylePanel.add(typingStyleBox);
@@ -54,7 +54,7 @@ public class SetupTypists extends JPanel {
         // keyboard type
         JPanel keyboardTypePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         keyboardTypePanel.add(new JLabel("Keyboard Type:"));
-        String[] keyboardTypes = {"Mechanical", "Membrane", "Touchscreen", "Stenography"};
+        String[] keyboardTypes = {"Mechanical (higher accuracy + higher burnout risk)", "Membrane (normal)", "Touchscreen (lower accuracy + lower burnout risk)", "Stenography (very high accuracy + very high burnout risk)"};
         JComboBox<String> keyboardTypeBox = new JComboBox<>(keyboardTypes);
         racerKeyboardTypesMap.put(currentRacer, keyboardTypeBox);
         keyboardTypePanel.add(keyboardTypeBox);
@@ -95,9 +95,9 @@ public class SetupTypists extends JPanel {
         // accessories
         JPanel accessoriesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         accessoriesPanel.add(new JLabel("Accessories: "));
-        JCheckBox wristSupport = new JCheckBox("Wrist Support");
-        JCheckBox energyDrink = new JCheckBox("Energy Drink");
-        JCheckBox headphones = new JCheckBox("Noise-Cancelling Headphones");
+        JCheckBox wristSupport = new JCheckBox("Wrist Support (burnout duration decreased)");
+        JCheckBox energyDrink = new JCheckBox("Energy Drink (first half increased accuracy, second half decreased accuracy)");
+        JCheckBox headphones = new JCheckBox("Noise-Cancelling Headphones (slightly increased accuracy + slightly higher burnout risk)");
         wristSupportMap.put(currentRacer, wristSupport);
         energyDrinkMap.put(currentRacer, energyDrink);
         headphonesMap.put(currentRacer, headphones);

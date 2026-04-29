@@ -53,7 +53,7 @@ public class MainManager {
 
                     //typing styles
                     if (typingStyle.equals("Touch Typist")) {
-                        typist.setAccuracy(0.92);
+                        typist.setAccuracy(0.9);
                     }
                     else if (typingStyle.equals("Hunt & Peck")) {
                         typist.setAccuracy(0.7);
@@ -62,7 +62,7 @@ public class MainManager {
                         typist.setAccuracy(0.8);
                     }
                     else if (typingStyle.equals("Voice-to-Text")) {
-                        typist.setAccuracy(0.9);
+                        typist.setAccuracy(0.93);
                     }
 
                     // global modifiers

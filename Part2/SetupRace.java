@@ -37,9 +37,9 @@ public class SetupRace extends JPanel {
 
         typistsButton = new JButton("Next");
 
-        autocorrect = new JCheckBox("Autocorrect");
-        caffeineMode = new JCheckBox("caffeine Mode");
-        nightShift = new JCheckBox("Night Shift");
+        autocorrect = new JCheckBox("Autocorrect (mistype penalty halved)");
+        caffeineMode = new JCheckBox("Caffeine Mode (for the first 10 turns, all typists get a speed boost with an increased burnout risk)");
+        nightShift = new JCheckBox("Night Shift (accuracy slightly decreases for everyone)");
 
 
         ButtonGroup passage = new ButtonGroup();
