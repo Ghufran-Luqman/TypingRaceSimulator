@@ -27,6 +27,11 @@ public class Typist
     private int turnsRemaining;
     private double accuracy;
     private boolean justMistyped;
+    private double burnoutRisk = 0.05;
+    private boolean hasEnergyDrink = false;
+    private boolean accuracyIncreasedFromEnergyDrink = false;
+    private boolean accuracyDecreasedFromEnergyDrink = false;
+
 
 
 
@@ -118,6 +123,18 @@ public class Typist
         return this.symbol;
     }
 
+    public boolean getHasEnergyDrink() {
+        return this.hasEnergyDrink;
+    }
+
+    public boolean getAccuracyIncreasedFromEnergyDrink() {
+        return this.accuracyIncreasedFromEnergyDrink;
+    }
+
+    public boolean getAccuracyDecreasedFromEnergyDrink() {
+        return this.accuracyDecreasedFromEnergyDrink;
+    }
+
     /**
      * Returns the number of turns of burnout remaining.
      * Returns 0 if the typist is not currently burnt out.
@@ -127,6 +144,10 @@ public class Typist
     public int getBurnoutTurnsRemaining()
     {
         return this.turnsRemaining;
+    }
+
+    public double getBurnoutRisk() {
+        return this.burnoutRisk;
     }
 
     /**
@@ -219,6 +240,22 @@ public class Typist
         else {
             this.accuracy = newAccuracy;
         }
+    }
+
+    public void setHasEnergyDrink(boolean newHasEnergyDrink) {
+        this.hasEnergyDrink = newHasEnergyDrink;
+    }
+
+    public void setAccuracyIncreasedFromEnergyDrink(boolean value) {
+        this.accuracyIncreasedFromEnergyDrink = value;
+    }
+
+    public void setAccuracyDecreasedFromEnergyDrink(boolean value) {
+        this.accuracyDecreasedFromEnergyDrink = value;
+    }
+
+    public void setBurnoutRisk(double newBurnoutRisk) {
+        this.burnoutRisk = newBurnoutRisk;
     }
 
     /**

@@ -18,7 +18,7 @@ public class SetupRace extends JPanel {
     private JTextField customInput;
     private JSlider noOfRacers;
     private JCheckBox autocorrect;
-    private JCheckBox caffieneMode;
+    private JCheckBox caffeineMode;
     private JCheckBox nightShift;
 
     public SetupRace() {
@@ -38,7 +38,7 @@ public class SetupRace extends JPanel {
         typistsButton = new JButton("Next");
 
         autocorrect = new JCheckBox("Autocorrect");
-        caffieneMode = new JCheckBox("Caffiene Mode");
+        caffeineMode = new JCheckBox("caffeine Mode");
         nightShift = new JCheckBox("Night Shift");
 
 
@@ -98,7 +98,7 @@ public class SetupRace extends JPanel {
         JPanel modifiersSection = new JPanel(new FlowLayout(FlowLayout.LEFT));
         modifiersSection.add(new JLabel("Global Difficulty Modifiers:"));
         modifiersSection.add(autocorrect);
-        modifiersSection.add(caffieneMode);
+        modifiersSection.add(caffeineMode);
         modifiersSection.add(nightShift);
 
         
@@ -137,12 +137,13 @@ public class SetupRace extends JPanel {
         return autocorrect.isSelected();
     }
 
-    public boolean getCaffieneMode() {
-        return caffieneMode.isSelected();
+    public boolean getcaffeineMode() {
+        return caffeineMode.isSelected();
     }
 
     public boolean getNightShift() {
         return nightShift.isSelected();
     }
+
 
 }

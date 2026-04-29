@@ -18,15 +18,13 @@ import java.text.DecimalFormat;
 public class TypingRace
 {
     private int passageLength;   // Total characters in the passage to type
-    private Typist seat1Typist;
-    private Typist seat2Typist;
-    private Typist seat3Typist;
+    private Typist[] typists;
 
     // Accuracy thresholds for mistype and burnout events
     // (Ty tuned these values "by feel". They may need adjustment.)
     private static final double MISTYPE_BASE_CHANCE = 0.8;
-    private static final int    SLIDE_BACK_AMOUNT   = 2;
-    private static final int    BURNOUT_DURATION     = 2;
+    private static int          SLIDE_BACK_AMOUNT   = 2;
+    private static int          BURNOUT_DURATION     = 2;
     private DecimalFormat df = new DecimalFormat("0.00");
 
     /**
@@ -36,12 +34,10 @@ public class TypingRace
      *
      * @param passageLength the number of characters in the passage to type
      */
-    public TypingRace(int passageLength)
+    public TypingRace(int passageLength, int noOfRacers)
     {
         this.passageLength = passageLength;
-        seat1Typist = null;
-        seat2Typist = null;
-        seat3Typist = null;
+        this.typists = new Typist[noOfRacers];
     }
 
     /**
@@ -52,22 +48,23 @@ public class TypingRace
      */
     public void addTypist(Typist theTypist, int seatNumber)
     {
-        if (seatNumber == 1)
-        {
-            seat1Typist = theTypist;
-        }
-        else if (seatNumber == 2)
-        {
-            seat2Typist = theTypist;
-        }
-        else if (seatNumber == 3)
-        {
-            seat3Typist = theTypist;
-        }
-        else
-        {
-            System.out.println("Cannot seat typist at seat " + seatNumber + " — there is no such seat.");
-        }
+        typists[seatNumber-1] = theTypist;
+    }
+
+    public int getSlideBackAmount () {
+        return SLIDE_BACK_AMOUNT;
+    }    
+
+    public void setSlideBackAmount (int slideBackAmt) {
+        SLIDE_BACK_AMOUNT = slideBackAmt;
+    }
+
+    public int getBurnoutDuration () {
+        return BURNOUT_DURATION;
+    }
+
+    public void setBurnoutDuration (int newBurnoutDuration) {
+        BURNOUT_DURATION = newBurnoutDuration;
     }
 
     /**
@@ -78,30 +75,44 @@ public class TypingRace
      * Note from Ty: "I didn't bother printing the winner at the end,
      * you can probably figure that out yourself."
      */
-    public void startRace()
+    public void startRace(boolean caffeine)
     {
         boolean finished = false;
 
         // Reset all typists to the start of the passage
         // (Ty was in a hurry here)
-        seat1Typist.resetToStart();
-        seat2Typist.resetToStart();
-        seat3Typist.resetToStart();
+        for (Typist t : typists) {
+            t.resetToStart();
+        }
+
+        int count = 0;
 
         while (!finished)
         {
             // Advance each typist by one turn
-            advanceTypist(seat1Typist);
-            advanceTypist(seat2Typist);
-            advanceTypist(seat3Typist);
+            for (Typist t : typists) {
+                advanceTypist(t);
+            }
+
+            if (caffeine && count<10) {
+                for (Typist t : typists) {
+                    advanceTypist(t);
+                }
+                count = count + 1;
+            }
+
+            if (count >= 10) {
+                caffeine = false;
+            }
 
             // Print the current state of the race
             printRace();
 
             // Check if any typist has finished the passage
-            if ( raceFinishedBy(seat1Typist) || raceFinishedBy(seat2Typist) || raceFinishedBy(seat3Typist) )
-            {
-                finished = true;
+            for (Typist t : typists) {
+                if (raceFinishedBy(t)) {
+                    finished = true;
+                }
             }
 
             // Wait 200ms between turns so the animation is visible
@@ -111,12 +122,8 @@ public class TypingRace
         }
 
         // TODO (Task 2a): Print the winner's name here
-        Typist[] players = new Typist[3];
-        players[0] = seat1Typist;
-        players[1] = seat2Typist;
-        players[2] = seat3Typist;
 
-        for (Typist t : players) {
+        for (Typist t : typists) {
             if (raceFinishedBy(t)) {
                 double oldAcc = t.getAccuracy(); // save old accuracy
                 t.setAccuracy(oldAcc + 0.02); // slightly increase winner's accuracy
@@ -153,6 +160,18 @@ public class TypingRace
             theTypist.resetJustMistyped();
         }
 
+        if (theTypist.getHasEnergyDrink()) {
+            int middle = passageLength/2;
+            if(theTypist.getProgress()<=middle && theTypist.getAccuracyIncreasedFromEnergyDrink()==false) {//if they're in the first half and accuracy hasn't already been increased
+                theTypist.setAccuracy(theTypist.getAccuracy() + 0.1);
+                theTypist.setAccuracyIncreasedFromEnergyDrink(true); // notes that accuracy has been increased
+            }
+            else if (theTypist.getProgress()>middle && theTypist.getAccuracyDecreasedFromEnergyDrink()==false){ // if they're in the second half and accuracy hasn't already been decreased
+                theTypist.setAccuracy(theTypist.getAccuracy() - 0.2);
+                theTypist.setAccuracyDecreasedFromEnergyDrink(true);
+            }
+        }
+
         // Attempt to type a character
         if (Math.random() < theTypist.getAccuracy())
         {
@@ -167,7 +186,7 @@ public class TypingRace
 
         // Burnout check — pushing too hard increases burnout risk
         // (probability scales with accuracy squared, capped at ~0.05)
-        if (Math.random() < 0.05 * theTypist.getAccuracy() * theTypist.getAccuracy())
+        if (Math.random() < theTypist.getBurnoutRisk() * theTypist.getAccuracy() * theTypist.getAccuracy())
         {
             theTypist.burnOut(BURNOUT_DURATION);
 
@@ -208,14 +227,10 @@ public class TypingRace
         multiplePrint('=', passageLength + 2);
         System.out.println();
 
-        printSeat(seat1Typist);
-        System.out.println();
-
-        printSeat(seat2Typist);
-        System.out.println();
-
-        printSeat(seat3Typist);
-        System.out.println();
+        for (Typist t : typists) {
+            printSeat(t);
+            System.out.println();
+        }
 
         multiplePrint('=', passageLength + 2);
         System.out.println();
