@@ -89,7 +89,7 @@ public class MainManager {
                     }
 
                     if (wristSupport) {
-                        race.setBurnoutDuration(race.getBurnoutDuration()-1);
+                        typist.setBurnoutDurationModifier(1);
                     }
                     if (energyDrink) {
                         typist.setHasEnergyDrink(energyDrink);

@@ -24,7 +24,7 @@ public class TypingRace
     // (Ty tuned these values "by feel". They may need adjustment.)
     private static final double MISTYPE_BASE_CHANCE = 0.8;
     private static int          SLIDE_BACK_AMOUNT   = 2;
-    private static int          BURNOUT_DURATION     = 2;
+    private static final int    BURNOUT_DURATION     = 2;
     private DecimalFormat df = new DecimalFormat("0.00");
 
     /**
@@ -57,14 +57,6 @@ public class TypingRace
 
     public void setSlideBackAmount (int slideBackAmt) {
         SLIDE_BACK_AMOUNT = slideBackAmt;
-    }
-
-    public int getBurnoutDuration () {
-        return BURNOUT_DURATION;
-    }
-
-    public void setBurnoutDuration (int newBurnoutDuration) {
-        BURNOUT_DURATION = newBurnoutDuration;
     }
 
     /**
@@ -188,7 +180,7 @@ public class TypingRace
         // (probability scales with accuracy squared, capped at ~0.05)
         if (Math.random() < theTypist.getBurnoutRisk() * theTypist.getAccuracy() * theTypist.getAccuracy())
         {
-            theTypist.burnOut(BURNOUT_DURATION);
+            theTypist.burnOut(BURNOUT_DURATION-theTypist.getBurnoutDurationModifier());
 
             // slightly decrease their accuracy
             theTypist.setAccuracy(theTypist.getAccuracy() - 0.02);

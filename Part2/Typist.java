@@ -31,6 +31,7 @@ public class Typist
     private boolean hasEnergyDrink = false;
     private boolean accuracyIncreasedFromEnergyDrink = false;
     private boolean accuracyDecreasedFromEnergyDrink = false;
+    private int burnoutDurationModifier = 0;
 
 
 
@@ -133,6 +134,10 @@ public class Typist
 
     public boolean getAccuracyDecreasedFromEnergyDrink() {
         return this.accuracyDecreasedFromEnergyDrink;
+    }
+
+    public int getBurnoutDurationModifier() {
+        return this.burnoutDurationModifier;
     }
 
     /**
@@ -256,6 +261,10 @@ public class Typist
 
     public void setBurnoutRisk(double newBurnoutRisk) {
         this.burnoutRisk = newBurnoutRisk;
+    }
+
+    public void setBurnoutDurationModifier(int value) {
+        this.burnoutDurationModifier = value;
     }
 
     /**

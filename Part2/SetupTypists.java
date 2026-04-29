@@ -104,7 +104,7 @@ public class SetupTypists extends JPanel {
         accessoriesPanel.add(wristSupport);
         accessoriesPanel.add(energyDrink);
         accessoriesPanel.add(headphones);
-        
+        form.add(accessoriesPanel);
         
         return form;
     }
