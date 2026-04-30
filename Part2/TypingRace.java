@@ -13,7 +13,8 @@ import java.text.DecimalFormat;
  * We have found evidence to the contrary.
  *
  * @author TyPosaurus
- * @version 0.7 (the other 0.3 is left as an exercise for the reader)
+ * @author Muhammad Ghufran Luqman
+ * @version 1
  */
 public class TypingRace
 {
@@ -75,7 +76,10 @@ public class TypingRace
         // (Ty was in a hurry here)
         for (Typist t : typists) {
             t.resetToStart();
+            t.setOriginalAccuracy();
+            t.setOriginalBurnoutRisk();
         }
+
 
         int count = 0;
 
@@ -89,6 +93,7 @@ public class TypingRace
             if (caffeine && count<10) {
                 for (Typist t : typists) {
                     advanceTypist(t);
+                    t.setBurnoutRisk(t.getBurnoutRisk() + 0.1);
                 }
                 count = count + 1;
             }
@@ -107,15 +112,23 @@ public class TypingRace
                 }
             }
 
+            if (finished) {
+                System.out.println("\nRace statistics:\n");
+                for (Typist t : typists) {
+                    System.out.println(t.getName()+"'s original accuracy was: "+t.getOriginalAccuracy()+", and their accuracy after the race is now: "+t.getAccuracy());
+                    System.out.println(t.getName()+"'s number of times burnt out is: "+t.getBurnoutCount());
+                }
+            }
+
             // Wait 200ms between turns so the animation is visible
             try {
                 TimeUnit.MILLISECONDS.sleep(200);
             } catch (Exception e) {}
         }
 
-        // TODO (Task 2a): Print the winner's name here
 
         for (Typist t : typists) {
+            t.setAccuracy(t.getOriginalAccuracy()); //reset accuracy to before they had energy drink (in case they did)
             if (raceFinishedBy(t)) {
                 double oldAcc = t.getAccuracy(); // save old accuracy
                 t.setAccuracy(oldAcc + 0.02); // slightly increase winner's accuracy
@@ -123,6 +136,7 @@ public class TypingRace
                 System.out.println("And the winner is... "+t.getName());
                 System.out.println("Final accuracy: "+df.format(t.getAccuracy())+" (improved from "+df.format(oldAcc)+")");
             }
+            t.setOriginalAccuracy();
         }
     }
 

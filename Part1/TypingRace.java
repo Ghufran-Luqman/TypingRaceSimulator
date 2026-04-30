@@ -108,7 +108,6 @@ public class TypingRace
             } catch (Exception e) {}
         }
 
-        // TODO (Task 2a): Print the winner's name here
         Typist[] players = new Typist[3];
         players[0] = seat1Typist;
         players[1] = seat2Typist;

@@ -9,7 +9,7 @@ package Part2;
  * It is not optional. Good luck.
  *
  * @author [name here]
- * @version 28/03/2026
+ * @version 2, started on 28/03/2026
  */
 public class Typist
 {
@@ -32,6 +32,11 @@ public class Typist
     private boolean accuracyIncreasedFromEnergyDrink = false;
     private boolean accuracyDecreasedFromEnergyDrink = false;
     private int burnoutDurationModifier = 0;
+    private int burnoutCount = 0;
+    private double originalAccuracy;
+    private int correctCharsTyped = 0;
+    private int totalCharsTyped = 0;
+    private double originalBurnoutRisk;
 
 
 
@@ -65,6 +70,7 @@ public class Typist
     {
         this.burntOut = true;
         this.turnsRemaining = turns;
+        this.burnoutCount++;
     }
 
     /**
@@ -124,18 +130,40 @@ public class Typist
         return this.symbol;
     }
 
+    /**
+     * Returns whether the typist has an energy drink enabled
+     * 
+     * @return status of energy drink as boolean
+     */
+
     public boolean getHasEnergyDrink() {
         return this.hasEnergyDrink;
     }
 
+    /**
+     * Returns if the accuracy was increased from the energy drink already
+     * 
+     * @return status as a boolean
+     */
     public boolean getAccuracyIncreasedFromEnergyDrink() {
         return this.accuracyIncreasedFromEnergyDrink;
     }
 
+    /**
+     * Returns if the accuracy was decreased from the energy drink already
+     * 
+     * @return status as a boolean
+     */
     public boolean getAccuracyDecreasedFromEnergyDrink() {
         return this.accuracyDecreasedFromEnergyDrink;
     }
 
+    /**
+     * Returns the modifier for burnout duration
+     * Default is 0
+     * 
+     * @return modifier as an integer
+     */
     public int getBurnoutDurationModifier() {
         return this.burnoutDurationModifier;
     }
@@ -151,8 +179,38 @@ public class Typist
         return this.turnsRemaining;
     }
 
+    /**
+     * Returns the typist's burnout risk (default is 0.05)
+     * 
+     * @return burnout risk as a double
+     */
     public double getBurnoutRisk() {
         return this.burnoutRisk;
+    }
+
+    /**
+     * Returns the number of times the typist was burnt out
+     * 
+     * @return burnout count as an integer
+     */
+    public int getBurnoutCount() {
+        return this.burnoutCount;
+    }
+
+    /**
+     * Returns the original accuracy of the typist (the accuracy before the race)
+     * 
+     * @return original accuracy as a double
+     */
+    public double getOriginalAccuracy() {
+        return this.originalAccuracy;
+    }
+
+    public double getAccuracyPercentage() {
+        if (totalCharsTyped==0) { // we cannot divide by 0
+            return 100.0; // so technically accuracy is 100% since correctCharsTyped=totalCharsTyped
+        }
+        return (((double) correctCharsTyped/totalCharsTyped)* 100);
     }
 
     /**
@@ -185,6 +243,12 @@ public class Typist
         this.burntOut = false;
         this.turnsRemaining = 0;
         this.justMistyped = false;
+        this.accuracyIncreasedFromEnergyDrink = false;
+        this.accuracyDecreasedFromEnergyDrink = false;
+        this.burnoutCount = 0;
+        this.correctCharsTyped = 0;
+        this.totalCharsTyped = 0;
+        this.burnoutRisk = this.originalBurnoutRisk;
     }
 
     /**
@@ -205,6 +269,8 @@ public class Typist
     {
         if (!(burntOut)) {
             this.progress++;
+            this.correctCharsTyped++;
+            this.totalCharsTyped++;
         }
     }
 
@@ -217,6 +283,7 @@ public class Typist
     public void slideBack(int amount)
     {
         this.justMistyped = true;
+        this.totalCharsTyped++; // as they have mistyped
         int newProgress = this.progress - amount;
         if (newProgress < 0) { // if negative
             this.progress = 0; // then put progress equal to zero
@@ -247,24 +314,72 @@ public class Typist
         }
     }
 
+    /**
+     * Sets whether or not the typist has an energy drink modifier
+     * 
+     * @param newHasEnergyDrink whether they have an energy drink modifier
+     */
     public void setHasEnergyDrink(boolean newHasEnergyDrink) {
         this.hasEnergyDrink = newHasEnergyDrink;
     }
 
+    /**
+     * Sets the value of if the accuracy increased from the energy drink
+     * Used after increasing the value from the energy drink
+     * 
+     * @param value the status of whether or not they have increased the accuracy
+     */
     public void setAccuracyIncreasedFromEnergyDrink(boolean value) {
         this.accuracyIncreasedFromEnergyDrink = value;
     }
 
+    /**
+     * Sets the value of if the accuracy decreased from the energy drink
+     * Used after decreasing the value from the energy drink
+     * 
+     * @param value the status of whether or not they have decreased the accuracy
+     */
     public void setAccuracyDecreasedFromEnergyDrink(boolean value) {
         this.accuracyDecreasedFromEnergyDrink = value;
     }
 
+    /**
+     * Sets the new burnout risk for the typist
+     * Default is 0.05
+     * 
+     * @param newBurnoutRisk the new burnout risk
+     */
     public void setBurnoutRisk(double newBurnoutRisk) {
         this.burnoutRisk = newBurnoutRisk;
     }
 
+    /**
+     * Sets the burnout duration modifier
+     * Default is 0
+     * 
+     * @param value the new burnout duration modifier
+     */
     public void setBurnoutDurationModifier(int value) {
         this.burnoutDurationModifier = value;
+    }
+
+    /**
+     * Stores the original accuracy into another attribute
+     * This is to preserve the original accuracy 
+     * as the typist's actual accuracy is likely to change
+     * during the race
+     * 
+     */
+    public void setOriginalAccuracy() {
+        this.originalAccuracy = this.getAccuracy();
+    }
+
+    /**
+     * Saves the original burnout risk before any modifiers are applied
+     * so that they can be reset
+     */
+    public void setOriginalBurnoutRisk() {
+        this.originalBurnoutRisk = this.burnoutRisk;
     }
 
     /**
