@@ -9,7 +9,6 @@ TypingRaceSimulator/
 ├── .git/     # History of version control
 ├── Part1/    # Textual simulation (Java, command-line)
 ├── Part2/    # GUI simulation (Java swing)
-├── OOP Typing Race Simulator Part 1 Report.pdf
 └── README.md
 ```
 
