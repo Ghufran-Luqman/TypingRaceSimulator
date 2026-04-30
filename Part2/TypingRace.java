@@ -23,7 +23,7 @@ public class TypingRace
 
     // Accuracy thresholds for mistype and burnout events
     // (Ty tuned these values "by feel". They may need adjustment.)
-    private static final double MISTYPE_BASE_CHANCE = 0.8;
+    private static final double MISTYPE_BASE_CHANCE = 0.3;
     private static int          SLIDE_BACK_AMOUNT   = 2;
     private static final int    BURNOUT_DURATION     = 2;
     private DecimalFormat df = new DecimalFormat("0.00");
@@ -93,13 +93,15 @@ public class TypingRace
             if (caffeine && count<10) {
                 for (Typist t : typists) {
                     advanceTypist(t);
-                    t.setBurnoutRisk(t.getBurnoutRisk() + 0.1);
                 }
                 count = count + 1;
-            }
 
-            if (count >= 10) {
-                caffeine = false;
+                if (count==10) {
+                    for (Typist t : typists) {
+                        t.setBurnoutRisk(t.getBurnoutRisk() + 0.1);
+                    }
+                    caffeine = false;
+                }
             }
 
             // Print the current state of the race
@@ -115,14 +117,14 @@ public class TypingRace
             if (finished) {
                 System.out.println("\nRace statistics:\n");
                 for (Typist t : typists) {
-                    System.out.println(t.getName()+"'s original accuracy was: "+t.getOriginalAccuracy()+", and their accuracy after the race is now: "+t.getAccuracy());
+                    System.out.println(t.getName()+"'s original accuracy was: "+df.format(t.getOriginalAccuracy())+", and their accuracy after the race is now: "+df.format(t.getAccuracy()));
                     System.out.println(t.getName()+"'s number of times burnt out is: "+t.getBurnoutCount());
                 }
             }
 
             // Wait 200ms between turns so the animation is visible
             try {
-                TimeUnit.MILLISECONDS.sleep(200);
+                TimeUnit.MILLISECONDS.sleep(50);
             } catch (Exception e) {}
         }
 
@@ -135,6 +137,7 @@ public class TypingRace
 
                 System.out.println("And the winner is... "+t.getName());
                 System.out.println("Final accuracy: "+df.format(t.getAccuracy())+" (improved from "+df.format(oldAcc)+")");
+                javax.swing.JOptionPane.showMessageDialog(null, "The winner is... "+t.getName()+"!\nTheir final accuracy was: "+df.format(t.getAccuracy()), "Race Finished!", javax.swing.JOptionPane.INFORMATION_MESSAGE);
             }
             t.setOriginalAccuracy();
         }
@@ -230,7 +233,9 @@ public class TypingRace
         System.out.print('\u000C'); // Clear terminal
 
         System.out.println("  TYPING RACE — passage length: " + passageLength + " chars");
-        multiplePrint('=', passageLength + 2);
+
+        int visualTrackWidth = 60;
+        multiplePrint('=', visualTrackWidth + 2);
         System.out.println();
 
         for (Typist t : typists) {
@@ -238,7 +243,7 @@ public class TypingRace
             System.out.println();
         }
 
-        multiplePrint('=', passageLength + 2);
+        multiplePrint('=', visualTrackWidth + 2);
         System.out.println();
         System.out.println("  [~] = burnt out    [<] = just mistyped");
     }
@@ -258,8 +263,12 @@ public class TypingRace
      */
     private void printSeat(Typist theTypist)
     {
-        int spacesBefore = theTypist.getProgress();
-        int spacesAfter  = passageLength - theTypist.getProgress();
+        int visualTrackWidth = 60;
+
+        double percentageComplete = (double) theTypist.getProgress() / passageLength;
+
+        int spacesBefore = (int) (percentageComplete*visualTrackWidth);
+        int spacesAfter  = visualTrackWidth-spacesBefore;
 
         System.out.print('|');
         multiplePrint(' ', spacesBefore);

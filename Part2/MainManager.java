@@ -103,9 +103,11 @@ public class MainManager {
                     race.addTypist(typist, i);
                 }
 
-                race.startRace(caffeine);
-
                 cardLayout.show(deckPanel, "Race");
+
+                new Thread(() -> {
+                    race.startRace(caffeine);
+                }).start();
             });
 
             cardLayout.show(deckPanel, "Setup Typists");
