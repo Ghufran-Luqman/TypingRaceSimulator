@@ -6,8 +6,11 @@ Object Oriented Programming Project — ECS414U
 
 ```
 TypingRaceSimulator/
+├── .git/     # History of version control
 ├── Part1/    # Textual simulation (Java, command-line)
-└── Part2/    # GUI simulation (to be completed)
+├── Part2/    # GUI simulation (Java swing)
+├── OOP Typing Race Simulator Part 1 Report.pdf
+└── README.md
 ```
 
 ## Part 1 — Textual Simulation
@@ -22,19 +25,7 @@ javac Typist.java TypingRace.java
 ### How to run
 
 The race is started by calling `startRace()` on a `TypingRace` object.
-A simple way to test this is to add a `main` method to `TypingRace`, for example:
-
-```java
-public static void main(String[] args) {
-    TypingRace race = new TypingRace(40);
-    race.addTypist(new Typist('①', "TURBOFINGERS", 0.85), 1);
-    race.addTypist(new Typist('②', "QWERTY_QUEEN",  0.60), 2);
-    race.addTypist(new Typist('③', "HUNT_N_PECK",   0.30), 3);
-    race.startRace();
-}
-```
-
-Then run:
+If you have added a `main` method to TypingRace or another class in Part 1, you can then run it by doing:
 
 ```bash
 java TypingRace
@@ -42,15 +33,29 @@ java TypingRace
 
 ## Part 2 — GUI Simulation
 
-To be implemented as part of the coursework. Place all GUI-related source files in this folder. The graphical version is started by calling `startRaceGUI()`.
+The graphical version of the Typing Race Simulator is implemented in Java Swing, featuring race configuration, customisable typists and modifiers, and is started by calling `startRaceGUI()`.
+
+### How to compile
+
+```bash
+cd Part2
+javac Part2/*.java
+```
+
+### How to run
+
+```bash
+cd ..
+java Part2.MainManager
+```
 
 ## Dependencies
 
 - Java Development Kit (JDK) 11 or higher
 - No external libraries required for Part 1
-- Part 2 may use Java Swing (included in standard JDK) or JavaFX
+- Part 2 uses Java Swing (included in standard JDK)
 
 ## Notes
 
 - All code should compile and run using standard command-line tools without any IDE-specific configuration.
-- The starter code in Part1 was originally written by Ty Posaurus. It contains known issues — finding and fixing them is part of the coursework.
+- The starter code in Part1 was originally written by Ty Posaurus. It contained known issues — finding and fixing them was part of the coursework.

@@ -1,4 +1,4 @@
 *.class
-*.pdf
 .DS_Store
 **/.DS_Store
+*.pdf
