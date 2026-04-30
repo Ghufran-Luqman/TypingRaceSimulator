@@ -1,13 +1,15 @@
 /**
- * Write a description of class Typist here.
+ * A class to create a new 'Typist' for the TypingRace, each Typist
+ * has their own name, symbol, progress, accuracy etc. to help keep track
+ * of their position and statistics throughout the race.
  *
  * Starter code generously abandoned by Ty Posaurus, your predecessor,
  * who typed with two fingers and considered that "good enough".
  * He left a sticky note: "the slide-back thing is optional probably".
  * It is not optional. Good luck.
  *
- * @author [name here]
- * @version 28/03/2026
+ * @author Muhammad Ghufran Luqman
+ * @version 1, started on 28/03/2026
  */
 public class Typist
 {
