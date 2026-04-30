@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainManager {
+    public static void startRaceGUI() {
+        main(new String[0]);
+    }
     public static void main(String a[]) {
         JFrame frame = new JFrame("Typing Race");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
